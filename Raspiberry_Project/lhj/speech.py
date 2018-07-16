@@ -188,7 +188,8 @@ def listen_print_loop(responses):
                 transcript = ""
                 
             elif transcript == "카메라" or transcript == " 카메라":
-                camera
+                camera.camera()
+                print("camera")
                 
             # Exit recognition if any of the transcribed phrases could be
             # one of our keywords.

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
 
+<<<<<<< HEAD
 # Copyright 2017 Google Inc. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,6 +28,8 @@ Example usage:
 """
 
 # [START import_libraries]
+=======
+>>>>>>> 9763b6ca0dfaaeca4ec7c60dd525e2ac03c96666
 from __future__ import division
 from __future__ import unicode_literals
 
@@ -41,13 +44,19 @@ from google.cloud.speech import types
 import pyaudio
 import RPi.GPIO as GPIO
 from six.moves import queue
+<<<<<<< HEAD
 # [END import_libraries]
+=======
+>>>>>>> 9763b6ca0dfaaeca4ec7c60dd525e2ac03c96666
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(12,GPIO.OUT)
 GPIO.setup(18,GPIO.OUT)
 
+<<<<<<< HEAD
 # Audio recording parameters
+=======
+>>>>>>> 9763b6ca0dfaaeca4ec7c60dd525e2ac03c96666
 RATE = 16000
 CHUNK = int(RATE / 10)  # 100ms
 
@@ -58,7 +67,10 @@ class MicrophoneStream(object):
         self._rate = rate
         self._chunk = chunk
 
+<<<<<<< HEAD
         # Create a thread-safe buffer of audio data
+=======
+>>>>>>> 9763b6ca0dfaaeca4ec7c60dd525e2ac03c96666
         self._buff = queue.Queue()
         self.closed = True
 
@@ -66,6 +78,7 @@ class MicrophoneStream(object):
         self._audio_interface = pyaudio.PyAudio()
         self._audio_stream = self._audio_interface.open(
             format=pyaudio.paInt16,
+<<<<<<< HEAD
             # The API currently only supports 1-channel (mono) audio
             # https://goo.gl/z757pE
             channels=1, rate=self._rate,
@@ -73,6 +86,10 @@ class MicrophoneStream(object):
             # Run the audio stream asynchronously to fill the buffer object.
             # This is necessary so that the input device's buffer doesn't
             # overflow while the calling thread makes network requests, etc.
+=======
+            channels=1, rate=self._rate,
+            input=True, frames_per_buffer=self._chunk,
+>>>>>>> 9763b6ca0dfaaeca4ec7c60dd525e2ac03c96666
             stream_callback=self._fill_buffer,
         )
 
@@ -96,15 +113,21 @@ class MicrophoneStream(object):
 
     def generator(self):
         while not self.closed:
+<<<<<<< HEAD
             # Use a blocking get() to ensure there's at least one chunk of
             # data, and stop iteration if the chunk is None, indicating the
             # end of the audio stream.
+=======
+>>>>>>> 9763b6ca0dfaaeca4ec7c60dd525e2ac03c96666
             chunk = self._buff.get()
             if chunk is None:
                 return
             data = [chunk]
 
+<<<<<<< HEAD
             # Now consume whatever other data's still buffered.
+=======
+>>>>>>> 9763b6ca0dfaaeca4ec7c60dd525e2ac03c96666
             while True:
                 try:
                     chunk = self._buff.get(block=False)
@@ -115,8 +138,11 @@ class MicrophoneStream(object):
                     break
 
             yield b''.join(data)
+<<<<<<< HEAD
 # [END audio_stream]
 
+=======
+>>>>>>> 9763b6ca0dfaaeca4ec7c60dd525e2ac03c96666
 
 def listen_print_loop(responses):
     """Iterates through server responses and prints them.
@@ -137,14 +163,19 @@ def listen_print_loop(responses):
     for response in responses:
         if not response.results:
             continue
+<<<<<<< HEAD
 
         # The `results` list is consecutive. For streaming, we only care about
         # the first result being considered, since once it's `is_final`, it
         # moves on to considering the next utterance.
+=======
+        
+>>>>>>> 9763b6ca0dfaaeca4ec7c60dd525e2ac03c96666
         result = response.results[0]
         if not result.alternatives:
             continue
 
+<<<<<<< HEAD
         # Display the transcription of the top alternative.
         transcript = ""
         transcript = result.alternatives[0].transcript
@@ -154,6 +185,11 @@ def listen_print_loop(responses):
         #
         # If the previous result was longer than this one, we need to print
         # some extra spaces to overwrite the previous result
+=======
+        transcript = ""
+        transcript = result.alternatives[0].transcript
+
+>>>>>>> 9763b6ca0dfaaeca4ec7c60dd525e2ac03c96666
         overwrite_chars = '' * (num_chars_printed - len(transcript))
 
         if not result.is_final:
@@ -164,8 +200,11 @@ def listen_print_loop(responses):
 
         else:
             print(transcript + overwrite_chars)
+<<<<<<< HEAD
             #print(transcript)
             #print(overwrite_chars)
+=======
+>>>>>>> 9763b6ca0dfaaeca4ec7c60dd525e2ac03c96666
             transcript.replace(" ","")
                 
             com = "음성인식"
@@ -189,10 +228,19 @@ def listen_print_loop(responses):
                 
             elif transcript == "카메라" or transcript == " 카메라":
                 camera.camera()
+<<<<<<< HEAD
                 print("camera")
                 
             # Exit recognition if any of the transcribed phrases could be
             # one of our keywords.
+=======
+                print("카메라 촬영 완료")
+            
+            elif transcript == "동영상" or transcript == " 동영상":
+                camera.video()
+                print("동영상 저장")
+            
+>>>>>>> 9763b6ca0dfaaeca4ec7c60dd525e2ac03c96666
             if re.search(r'\b(exit|quit)\b', transcript, re.I):
                 print('Exiting..')
                 break
@@ -200,8 +248,11 @@ def listen_print_loop(responses):
             num_chars_printed = 0
 
 def main():
+<<<<<<< HEAD
     # See http://g.co/cloud/speech/docs/languages
     # for a list of supported languages.
+=======
+>>>>>>> 9763b6ca0dfaaeca4ec7c60dd525e2ac03c96666
     language_code = 'ko-KR'  # a BCP-47 language tag
     
     i = 0
@@ -222,7 +273,10 @@ def main():
 
         responses = client.streaming_recognize(streaming_config, requests)
 
+<<<<<<< HEAD
         # Now, put the transcription responses to use.
+=======
+>>>>>>> 9763b6ca0dfaaeca4ec7c60dd525e2ac03c96666
         listen_print_loop(responses)
 
 

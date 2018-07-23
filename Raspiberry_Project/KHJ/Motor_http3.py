@@ -25,7 +25,7 @@ state_dict={"Forward":[0.6, 0.6, 0.0, 0.0, 1.0, 0.0],
             "Stop":[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
             }
 
-def Move(status): 
+def Move(status):
     global num,state_dict
     fr,fl,rer,rel,Fo,Bw = state_dict[status]
     print(status)
